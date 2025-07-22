@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>First Page</title>
+{% endblock %}
+
+{% block content %}
+<h2 class="text-center">Poppulation Data</h2>
+{% if messages %}
+  {% for message in messages %}
+    {% with message|lower as lower_message %}
+      {% if 'delete' in lower_message %}
+        <div class="alert alert-danger" role="alert">
+          <strong>{{ message }}</strong>
+        </div>
+      {% elif 'success' in lower_message or 'successfully' in lower_message %}
+        <div class="alert alert-success" role="alert">
+          <strong>{{ message }}</strong>
+        </div>
+      {% else %}
+        <div class="alert alert-info" role="alert">
+          <strong>{{ message }}</strong>
+        </div>
+      {% endif %}
+    {% endwith %}
+  {% endfor %}
+{% endif %}
+
+<table class="table table-hover table-striped">
+  <thead>
+    <tr class="table-info">
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Age</th>
+      <th scope="col">Create Date</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for person in all_person %}
+    <tr>
+        <th scope="row">{{person.id}}</th>
+        <td>{{person.name}}</td>
+        <td>{{person.age}}</td>
+        <td>{{person.date}}</td>
+        <td><a href="edit/{{person.id}}" class="btn btn-warning">Edit</a></td>
+        <td><a href="delete/{{person.id}}" class="btn btn-danger" onclick="return confirm('Do You want to Delete {{person.name}}')">Delete</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
